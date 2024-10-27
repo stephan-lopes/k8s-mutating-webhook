@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: add-toleration-webhook
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: add-toleration-webhook
+  template:
+    metadata:
+      labels:
+        app: add-toleration-webhook
+    spec:
+      containers:
+        - name: webhook
+          image: ghcr.io/stephan-lopes/webhook-server:v7
+          ports:
+            - containerPort: 443
+          volumeMounts:
+            - name: webhook-certs
+              mountPath: "/etc/certs"
+              readOnly: true
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "64Mi"
+              cpu: "100m"
+      volumes:
+        - name: webhook-certs
+          secret:
+            secretName: webhook-certs

@@ -1,0 +1,25 @@
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: add-toleration-nodeaffinity
+webhooks:
+  - name: add-toleration.kube-system.svc
+    clientConfig:
+      service:
+        name: add-toleration-webhook
+        namespace: kube-system
+        path: "/mutate"
+        port: 443
+      caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURQekNDQWllZ0F3SUJBZ0lRY1NVSDB5NTR2TGF1OUVBZmo5YmZGekFOQmdrcWhraUc5dzBCQVFzRkFEQXgKTVM4d0xRWURWUVFERXlaaFpHUXRkRzlzWlhKaGRHbHZiaTEzWldKb2IyOXJMbXQxWW1VdGMzbHpkR1Z0TG5OMgpZekFlRncweU5ERXdNakV3TkRBd05EaGFGdzB5TlRBeE1Ua3dOREF3TkRoYU1ERXhMekF0QmdOVkJBTVRKbUZrClpDMTBiMnhsY21GMGFXOXVMWGRsWW1odmIyc3VhM1ZpWlMxemVYTjBaVzB1YzNaak1JSUJJakFOQmdrcWhraUcKOXcwQkFRRUZBQU9DQVE4QU1JSUJDZ0tDQVFFQXlIZkw0REZPN3dWUno3dUdGTG9ubS9SdnpUTG5RL0pIbFZUMQozcGtxdTF3Ukh2NStRRWVCaktqbUE3d0NYdkliZ1JYZDY3RlUyNmFnTFdsaDBOTVNmVnJweTdmdkNlR3ptOVc4CjNTcXoyZXowVzVjcDh4R1RMRGNsU1dlS2lzem1rVDJ6cWlveGkzSVhsZlhXakxRc0RWMXQvZ3d6LzRvU1JMVWgKMjQyellQZW9hYlE4Rkg5V0d1ZUlJeEZxSXIzOTRaVEhYZHNIay8xdUlHOGI3bUI5WGtTZEFnZTBFN1FlNFEwZQo5UUt4MXhQdnVKVFhGTWdWc1BPdTFIQm1oYlQzSnoxd04rVUJpWWpxYk80Q1VadmdWcDM4SmhWNUM3cEluQjhTClpFUmRXb3dHSFp0dmd1akZPQkxPTmJYR2plM0pzaHJjeTRLVkczVmd4SHY2Y05taU53SURBUUFCbzFNd1VUQU8KQmdOVkhROEJBZjhFQkFNQ0JhQXdEQVlEVlIwVEFRSC9CQUl3QURBeEJnTlZIUkVFS2pBb2dpWmhaR1F0ZEc5cwpaWEpoZEdsdmJpMTNaV0pvYjI5ckxtdDFZbVV0YzNsemRHVnRMbk4yWXpBTkJna3Foa2lHOXcwQkFRc0ZBQU9DCkFRRUFWYjVBWWxBYlVaeHp3NzNvZFZvaitSNVBsTXlsbUhxSDNZRXRVK3RhdzlFVEg1S2tsa3Vub0FRV00xTnUKeGFrSnhFM2tWZzlBMFVFTHhEaDM3VitqQUpOWUlHQnpyUG5FMzhtOCtFN0MzY3NGNEVlZ3pWMkd2RzBaSnd4NQpSa2F6UjdZZzNPdnh1d2N0RnJDQUJ2SGRTL0Z2MXg4Y1VaQXFKOGt4UWdOUlh0U1V2Sy9Lb0VadVhrYXcwSzl6Ck1RY0xidzFwUmRHaCtyYytyenN6NlNiaHNZMDV4Y3JPVU05b3V5SGQ1b0szVmFXVVhOVUpWR2JGSGcvbVhBWG0KY2RkTUUydW4vMTRTZzZMZkFMVFQ2MDA5MVhRSlpiL0RROVJKRktpQjh1YU5LejZJMVJrZkxpdHcyZHR2Zjhkawo0aGdBS09uY3QyQzhzUWlEbjkrUENpV1phdz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K # Substitua pelo CA correto
+    rules:
+      - operations: ["CREATE"]
+        apiGroups: [""]
+        apiVersions: ["v1"]
+        resources: ["pods"]
+    namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: kube-system
+    admissionReviewVersions: ["v1"]
+    sideEffects: None
+    timeoutSeconds: 5
